@@ -9,8 +9,7 @@ const defaultParams = {
   fireAge: 45,
   monthlyExpense: 8000,
   inflationRate: 3,
-  returnRate: 5,
-  withdrawalRate: 4
+  returnRate: 5
 }
 
 const params = ref({ ...defaultParams })
@@ -136,32 +135,9 @@ const fireResult = computed(() => {
   return calculateFire()
 })
 
-const fireNumber = computed(() => {
-  const { monthlyExpense, withdrawalRate } = params.value
-  const annualExpense = monthlyExpense * 12
-  return annualExpense / (withdrawalRate / 100)
-})
-
 const yearsToFire = computed(() => {
   const { currentAge, fireAge } = params.value
   return Math.max(0, fireAge - currentAge)
-})
-
-const fireStatus = computed(() => {
-  const { currentSavings } = params.value
-  const ratio = currentSavings / fireNumber.value
-  
-  if (ratio >= 1) {
-    return { text: '已达成FIRE目标', class: 'success' }
-  } else if (ratio >= 0.7) {
-    return { text: '接近FIRE目标', class: 'warning' }
-  } else {
-    return { text: '距离FIRE目标还有差距', class: 'danger' }
-  }
-})
-
-const progressPercent = computed(() => {
-  return Math.min(100, (params.value.currentSavings / fireNumber.value) * 100)
 })
 
 const resetToDefault = () => {
@@ -252,17 +228,6 @@ const resetToDefault = () => {
           />
           <span class="input-hint">建议设置 4-8%</span>
         </div>
-        <div class="form-group">
-          <label>安全提取率 (%)</label>
-          <input 
-            type="number" 
-            v-model.number="params.withdrawalRate" 
-            :min="1" 
-            :max="10"
-            step="0.5"
-          />
-          <span class="input-hint">经典4%法则</span>
-        </div>
       </div>
     </div>
 
@@ -278,24 +243,6 @@ const resetToDefault = () => {
         </div>
         <div class="result-age">
           资金可支撑至 {{ fireResult.endAge }} 岁
-        </div>
-        <div class="result-status" :class="fireStatus.class">
-          {{ fireStatus.text }}
-        </div>
-      </div>
-
-      <div class="result-details">
-        <div class="detail-item">
-          <div class="detail-value">{{ formatMoney(fireNumber) }}</div>
-          <div class="detail-label">FIRE目标金额</div>
-        </div>
-        <div class="detail-item">
-          <div class="detail-value">{{ progressPercent.toFixed(1) }}%</div>
-          <div class="detail-label">目标完成度</div>
-        </div>
-        <div class="detail-item">
-          <div class="detail-value">{{ formatMoney(Math.abs(params.currentSavings - fireNumber)) }}</div>
-          <div class="detail-label">{{ params.currentSavings >= fireNumber ? '超出目标' : '距离目标' }}</div>
         </div>
       </div>
     </div>

@@ -431,4 +431,39 @@ body {
   .form-grid {
     grid-template-columns: 1fr;
   }
+  
+  .chart-container {
+    margin-left: -1.25rem;
+    margin-right: -1.25rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+  
+  .chart {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .chart-bars {
+    min-width: 100%;
+    flex-wrap: nowrap;
+  }
+  
+  .chart-bar-wrapper {
+    min-width: 30px;
+    flex-shrink: 0;
+  }
+  
+  .chart-bar {
+    max-width: 30px;
+  }
+  
+  .chart-label {
+    font-size: 0.5625rem;
+  }
+  
+  .chart-y-axis span {
+    font-size: 0.5625rem;
+  }
 }
